@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div :class="visible_comp" >
         <header> 
             <h2>Preview</h2>
         </header>
@@ -30,7 +30,7 @@ export default {
             ],
         }
     },
-    props: ['products'],
+    props: ['products', 'visible_comp'],
     components: {
         Product
     }
@@ -49,6 +49,18 @@ export default {
     .headers {
         display: flex;
         align-items: center;
-        margin-top: 4rem;
+        width: 100%;
+    }
+    h5 {
+        font-size: 12px;
+    }
+    .invisible {
+        display: none;
+    }
+
+    @media (min-width: 600px) {
+        .headers h5 {
+            font-size: 20px;
+        }
     }
 </style>

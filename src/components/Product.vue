@@ -25,9 +25,11 @@ export default {
     }
     .product-row h5 {
         width: 20%;
+        font-size: 10px;
     }
     .product-row p {
         width: 20%;
+        font-size: 10px;
     }
     .product-images {
         height: 60%;
@@ -36,6 +38,20 @@ export default {
     }
     .images-div {
         display: flex;
+        flex-direction: column;
         width: 60%;
+    }
+
+    @media (min-width: 600px) {
+        .product-row h5 {
+            font-size: 14px;
+        }
+        .product-row p {
+            font-size: 14px;
+        }
+        .images-div {
+            flex-direction: row;
+            justify-content: center;
+        }
     }
 </style>

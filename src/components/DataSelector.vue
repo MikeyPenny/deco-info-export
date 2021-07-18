@@ -31,13 +31,14 @@
                 v-model="name"
                 type="text"
                 placeholder="Name your download"
+                :change="validateForm()"
                 required
                 ></b-form-input>
         </div>
         
-        <div class="row-form button-row">
+        <div class="button-row">
             <Button class="btn-reset" text="Reset" btnType="outline-primary" @click:option="onReset" />
-            <Button class="btn-fill" text="Fill my sheet" btnType="primary" @click:option="onSubmit" />
+            <Button class="btn-fill" :disabled="!isValid" text="Fill my sheet" btnType="primary" @click:option="onSubmit" />
         </div>
         
         
@@ -57,7 +58,7 @@ export default {
             sheet: '',
             selected: '',
             name: '',
-            
+            isValid: false
         }
     },
     props: [
@@ -78,24 +79,34 @@ export default {
             console.log(data)
         },
         onReset() {
-            console.log('Reset')
             this.sheet = ''
             this.selected = ''
             this.name = ''
+            this.$emit('reset:form')
         },
         onChangeSelector() {
+            this.validateForm()
             this.$emit('change:select', this.selected)
         },
-        // onChangeNameHandler(ev) {
-        //     this.name = ev.target.value
-        // }
+        validateForm() {
+            if (this.sheet !== '' && this.selected !== '' && this.name !== '' ) {
+                this.isValid = true
+            } else {
+                this.isValid = false
+            }
+
+        }
     }
 }    
 </script>
 
 <style scoped>
+    form {
+        margin-bottom: 20px;
+    }
     .row-form {
         display: flex;
+        flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
         width: 100%;
@@ -104,13 +115,13 @@ export default {
     .input-label {
         display: flex;
         align-items: center;
-        width: 40%;
+        width: 80%;
         padding: 2px;
         box-sizing: border-box;
         font-size: 15px;
     }
     .input-select {
-        width: 60%;
+        width: 100%;
     }
     .numbers {
         width: 10%;
@@ -121,7 +132,9 @@ export default {
         margin-right: 10px;
     }
     .button-row {
-        justify-content: flex-end;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
     }
     .btn-fill {
         margin-left: 30px;
@@ -131,4 +144,14 @@ export default {
         border-color: #070b60;
         color: #070b60;
     }
+
+    @media (min-width: 600px) {
+        .row-form {
+            flex-direction: row;
+        }
+        .button-row {
+            justify-content: flex-end;
+        }
+    }
+
 </style>

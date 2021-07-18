@@ -13,8 +13,8 @@
         </div>
       </header>
       
-      <DataSelector :sheets="sheets" :brands="brands" @change:select="onChangeBrand" :products="selectedProducts" />
-      <ProductList :products="selectedProducts" />
+      <DataSelector :sheets="sheets" :brands="brands" @change:select="onChangeBrand" :products="selectedProducts" @reset:form="onResetProducts" />
+      <ProductList :visible_comp="visible" :products="selectedProducts" />
     </b-container>    
   </div>
 </template>
@@ -34,6 +34,7 @@ export default {
       sheets: [{ text: 'Select one', value: '' }],
       brands: [{ text: 'Select a Brand', value: ''}],
       selectedProducts: [],
+      visible: 'invisible'
     }
   },
   components: {
@@ -81,14 +82,14 @@ export default {
             product_name: filteredProducts[0].text,
             images: [...filteredProducts[0].images]
         }
+        this.visible = ''
         this.selectedProducts = [...this.selectedProducts, product]
         
     },
-    // onChangeSheet(id) {
-    //   const sheetFiltered = this.sheets.filter(sheet => sheet.id === id)
-    //   this.sheetId = sheetFiltered[0].id
-      
-    // },
+    onResetProducts() {
+      this.visible = 'invisible'
+      this.selectedProducts = [];
+    }
   },
   async created() { 
     const importSheets = await this.fetchImportSheetData()
@@ -122,7 +123,7 @@ export default {
 }
 .brief {
   display: flex;
-  width: 80%;
+  width: 90%;
   text-align: left;
 }
 .icon {
